@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
+    document.execCommand("defaultParagraphSeparator", false, "p");
     const editors1 = document.getElementsByClassName("editor single-line-text")
     const editors2 = document.getElementsByClassName("editor checkbox")
     const saveAPIURL = "/editor/api/save"
@@ -55,6 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
     for (let i = 0; i < editors1.length; i++) {
         // send ajax request on focusout editor element
         editors1[i].addEventListener('focusout', () => {
+            editors1[i].innerHTML = editors1[i].innerHTML.trim()
             saveData("single-line-text", i)
         });
         // paste from clipboard as text/plain
