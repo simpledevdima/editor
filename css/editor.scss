@@ -1,53 +1,80 @@
-// single-line-texts
-.editor.single-line-text[contenteditable="true"]:focus {
-  outline: 0 solid transparent;
-  box-shadow: 0 0 0 2px rgba(0,123,255,.25);
-  border-radius: 2px;
-}
-.editor.single-line-text[contenteditable="true"] {
-  box-shadow: 0 0 0 2px rgba(0,123,255,.05);
-}
-.editor.single-line-text[contenteditable="true"], .editor.single-line-number[contenteditable="true"] {
-  white-space: nowrap;
-  overflow: hidden;
-  br {
-    display:none;
-  }
-  * {
-    display:inline;
-    white-space:nowrap;
-  }
-}
-.editor.single-line-text {
-  display: inline-block;
-  width: 100%;
-  height: 22px;
+// input-text
+.editor.input-text {
   padding: 6px;
+  width: 100%;
+  height: 18px;
+  border: none;
   border-radius: 5px;
+  outline: 2px solid rgba(0,123,255,.05);
+}
+.editor.input-text:focus {
+  outline: 2px solid rgba(0,123,255,.25);
 }
 
-// checkboxes
+// content-html
+.editor.content-html {
+  display: block;
+  padding: 6px;
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 5px;
+  outline: 2px solid rgba(0,123,255,.05);
+  overflow: hidden;
+  overflow-y: scroll;
+  overflow-x: scroll;
+}
+.editor.content-html:focus {
+  outline: 2px solid rgba(0,123,255,.25);
+}
+
+// checkbox
 .editor.checkbox {
-  cursor: pointer;
   width: 30px;
   height: 30px;
-  background: #fff;
-  border: 2px solid;
-  border-radius: 5px;
   font-size: 24px;
   text-align: center;
-}
-.editor.checkbox[data-value="true"]::before {
-  content: "✔";
+  cursor: pointer;
+  background: #fff;
+  border-radius: 5px;
+  outline: solid 2px;
 }
 .editor.checkbox[data-value="true"] {
   color:#090;
-  border-color: #090;
+  outline-color: #090;
 }
 .editor.checkbox[data-value="false"] {
-  border-color: #666;
+  outline-color: #666;
 }
 .editor.checkbox:hover {
   color:#696;
-  border-color: #696;
+  outline-color: #696;
 }
+
+//// single-line-texts
+//.editor.single-line-text[contenteditable="true"]:focus {
+//  outline: 0 solid transparent;
+//  box-shadow: 0 0 0 2px rgba(0,123,255,.25);
+//  border-radius: 2px;
+//}
+//.editor.single-line-text[contenteditable="true"] {
+//  box-shadow: 0 0 0 2px rgba(0,123,255,.05);
+//}
+//.editor.single-line-text[contenteditable="true"], .editor.single-line-number[contenteditable="true"] {
+//  white-space: nowrap;
+//  overflow: hidden;
+//  br {
+//    display:none;
+//  }
+//  * {
+//    display:inline;
+//    white-space:nowrap;
+//  }
+//}
+//.editor.single-line-text {
+//  display: inline-block;
+//  width: 100%;
+//  height: 22px;
+//  padding: 6px;
+//  border-radius: 5px;
+//}
