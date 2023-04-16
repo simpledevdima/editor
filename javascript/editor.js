@@ -2,6 +2,9 @@ document.addEventListener('DOMContentLoaded', function() {
     document.execCommand("defaultParagraphSeparator", false, "p");
     const editors1 = document.getElementsByClassName("editor input-text")
     const editors2 = document.getElementsByClassName("editor checkbox")
+    const editors3 = document.getElementsByClassName("editor content-html")
+    const editors4 = document.getElementsByClassName("editor textarea")
+    const editors5 = document.getElementsByClassName("editor select")
     const saveAPIURL = "/editor/api/save"
     // saveData send ajax request with data to api
     function saveData(datatype, request, i) {
@@ -19,6 +22,12 @@ document.addEventListener('DOMContentLoaded', function() {
                             break
                         case "checkbox":
                             responseProcessingCheckBox(i)
+                            break
+                        case "content-html":
+                            responseProcessingContentHTML(i)
+                            break
+                        case "textarea":
+                            responseProcessingTextArea(i)
                             break
                     }
                 } else {
@@ -74,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
             editors2[i].innerHTML = ""
         }
     }
-    // save input text
+    // save checkbox
     function saveCheckBox(i) {
         // construct json object
         const request = JSON.stringify({
@@ -90,6 +99,82 @@ document.addEventListener('DOMContentLoaded', function() {
             saveCheckBox(i)
         })
     }
+
+    // set default-data for content-html
+    for (let i = 0; i < editors3.length; i++) {
+        editors3[i].setAttribute("data-default", editors3[i].innerHTML)
+    }
+    // response processing input-type
+    function responseProcessingContentHTML(i) {
+        editors3[i].setAttribute("data-default", editors3[i].innerHTML)
+    }
+    // save content html
+    function saveContentHTML(i) {
+        // check data
+        if (editors3[i].innerHTML !== editors3[i].getAttribute("data-default")) {
+            // construct json object
+            const request = JSON.stringify({
+                "conn-id": parseInt(editors3[i].getAttribute("data-conn-id")),
+                "key": editors3[i].getAttribute("data-key"),
+                "value": editors3[i].innerHTML,
+            })
+            // send data
+            saveData("content-html", request, i)
+        }
+    }
+    // content-html handlers
+    for (let i = 0; i < editors3.length; i++) {
+        // send ajax request on focusout editor element
+        editors3[i].addEventListener('focusout', () => {
+            saveContentHTML(i)
+        });
+    }
+
+    // response processing textarea
+    function responseProcessingTextArea(i) {
+        editors4[i].setAttribute("data-default", editors4[i].value)
+    }
+    // save textarea
+    function saveTextArea(i) {
+        // check data
+        if (editors4[i].value !== editors4[i].getAttribute("data-default")) {
+            // construct json object
+            const request = JSON.stringify({
+                "conn-id": parseInt(editors4[i].getAttribute("data-conn-id")),
+                "key": editors4[i].getAttribute("data-key"),
+                "value": editors4[i].value,
+            })
+            // send data
+            saveData("textarea", request, i)
+        }
+    }
+    // textarea handlers
+    for (let i = 0; i < editors4.length; i++) {
+        // send ajax request on focusout editor element
+        editors4[i].addEventListener('focusout', () => {
+            saveTextArea(i)
+        });
+    }
+
+    // save select
+    function saveSelect(i) {
+        // construct json object
+        const request = JSON.stringify({
+            "conn-id": parseInt(editors5[i].getAttribute("data-conn-id")),
+            "key": editors5[i].getAttribute("data-key"),
+            "value": editors5[i].value,
+        })
+        // send data
+        saveData("select", request, i)
+    }
+    // select handlers
+    for (let i = 0; i < editors5.length; i++) {
+        editors5[i].addEventListener('change', ()=> {
+            saveSelect(i)
+        })
+    }
+
+
     // // single-line-text handlers
     // for (let i = 0; i < editors1.length; i++) {
     //     // send ajax request on focusout editor element

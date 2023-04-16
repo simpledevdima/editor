@@ -46,7 +46,7 @@ func Save(w http.ResponseWriter, r *http.Request) {
 			}
 			// updating data in accordance with the information received by the key
 			switch dt {
-			case "single-line-text":
+			case "input-text", "content-html", "textarea", "select":
 				_, err := DBC[data.ConnId].Exec(fmt.Sprintf("update `%s` set `%s` = ? where `id` = ?", table, row), data.Value, idl)
 				if err != nil {
 					log.Println(err)

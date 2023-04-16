@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"fmt"
 	"github.com/skvdmt/f"
-	"html/template"
 	"log"
 )
 
@@ -41,14 +40,13 @@ func (d *Data) Edit() string {
 	if err != nil {
 		log.Println(err)
 	}
-	tpl, err := template.ParseFiles(fmt.Sprintf("%s/templates/%s.gohtml", currentDir, d.DataType))
-	if err != nil {
-		log.Println(err)
-	}
 	var t bytes.Buffer
-	err = tpl.Execute(&t, d)
-	if err != nil {
-		log.Println(err)
+	tfn := fmt.Sprintf("%s/templates/%s.gohtml", currentDir, d.DataType)
+	switch d.DataType {
+	case "content-html":
+		t = TemplateAsText(tfn, d)
+	case "checkbox", "input-text", "textarea", "select":
+		t = TemplateAsHTML(tfn, d)
 	}
 	return t.String()
 }

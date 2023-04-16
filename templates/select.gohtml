@@ -1,0 +1,13 @@
+{{$d := .Value.Default}}
+<select class="editor select" data-conn-id="{{.ConnID}}" data-key="{{.Key}}">
+    {{if .Value.ShowPlaceHolder}}
+    <option disabled selected hidden>{{.Value.PlaceHolder}}</option>
+    {{end}}
+    {{range $v, $label := .Value.Options }}
+        {{if eq $d $v}}
+            <option value="{{$v}}" selected>{{$label}}</option>
+        {{else}}
+            <option value="{{$v}}">{{$label}}</option>
+        {{end}}
+    {{end}}
+</select>
