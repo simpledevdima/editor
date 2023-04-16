@@ -173,30 +173,4 @@ document.addEventListener('DOMContentLoaded', function() {
             saveSelect(i)
         })
     }
-
-
-    // // single-line-text handlers
-    // for (let i = 0; i < editors1.length; i++) {
-    //     // send ajax request on focusout editor element
-    //     editors1[i].addEventListener('focusout', () => {
-    //         editors1[i].innerHTML = editors1[i].innerHTML.trim()
-    //         saveData("single-line-text", i)
-    //     });
-    //     // paste from clipboard as text/plain
-    //     editors1[i].addEventListener("paste", function(e) {
-    //         // cancel paste
-    //         e.preventDefault();
-    //         // get text representation of clipboard
-    //         const text = (e.originalEvent || e).clipboardData.getData('text/plain');
-    //         // insert text manually
-    //         document.execCommand("insertHTML", false, text);
-    //     });
-    //     // save data by enter keypress
-    //     editors1[i].addEventListener('keypress', (e) => {
-    //         if (e.which === 13) {
-    //             e.preventDefault();
-    //             saveData("single-line-text", i)
-    //         }
-    //     });
-    // }
 });
