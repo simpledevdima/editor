@@ -29,30 +29,33 @@ func Save(w http.ResponseWriter, r *http.Request) {
 	var res SaveResponse
 	// if ConnID exists
 	if _, ok := DBC[data.ConnId]; ok {
+		// connect to db
+		db := DBC.Open(data.ConnId)
+		defer DBC.Close(db)
 		// delete old data lines
-		_, err = DBC[data.ConnId].Exec(fmt.Sprintf("delete from `editor` where `dt_last_use` < date_sub(now(),interval 1 hour)"))
+		_, err = db.Exec(fmt.Sprintf("delete from `editor` where `dt_last_use` < date_sub(now(),interval 1 hour)"))
 		if err != nil {
 			log.Println(err)
 		}
 		// getting a table, column, and editable data field ID by key
 		var table, row, dt string
 		var idl int
-		err = DBC[data.ConnId].QueryRow("select `table`, `row_name`, `id_line`, `type` from `editor` where `key` = ?", data.Key).Scan(&table, &row, &idl, &dt)
+		err = db.QueryRow("select `table`, `row_name`, `id_line`, `type` from `editor` where `key` = ?", data.Key).Scan(&table, &row, &idl, &dt)
 		if err == nil {
 			// update date time last use current key
-			_, err = DBC[data.ConnId].Exec("update `editor` set `dt_last_use` = CURRENT_TIMESTAMP where `key` = ?", data.Key)
+			_, err = db.Exec("update `editor` set `dt_last_use` = CURRENT_TIMESTAMP where `key` = ?", data.Key)
 			if err != nil {
 				log.Println(err)
 			}
 			// updating data in accordance with the information received by the key
 			switch dt {
 			case "input-text", "content-html", "textarea", "select":
-				_, err := DBC[data.ConnId].Exec(fmt.Sprintf("update `%s` set `%s` = ? where `id` = ?", table, row), data.Value, idl)
+				_, err := db.Exec(fmt.Sprintf("update `%s` set `%s` = ? where `id` = ?", table, row), data.Value, idl)
 				if err != nil {
 					log.Println(err)
 				}
 			case "checkbox":
-				_, err := DBC[data.ConnId].Exec(fmt.Sprintf("update `%s` set `%s` = !%s where `id` = ?", table, row, row), idl)
+				_, err := db.Exec(fmt.Sprintf("update `%s` set `%s` = !%s where `id` = ?", table, row, row), idl)
 				if err != nil {
 					log.Println(err)
 				}

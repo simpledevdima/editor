@@ -2,6 +2,7 @@ package editor
 
 import (
 	"bytes"
+	"database/sql"
 	"fmt"
 	"github.com/skvdmt/f"
 	"log"
@@ -35,8 +36,8 @@ type Data struct {
 }
 
 // Edit preparation of a template that allows for quick editing on the page
-func (d *Data) Edit() string {
-	_, err := DBC[d.ConnID].Query("insert into `editor` (`table`, `row_name`, `id_line`, `type`, `key`) VALUES (?, ?, ?, ?, ?)", d.table, d.row, d.id, d.DataType, d.Key)
+func (d *Data) Edit(db *sql.DB) string {
+	_, err := db.Query("insert into `editor` (`table`, `row_name`, `id_line`, `type`, `key`) VALUES (?, ?, ?, ?, ?)", d.table, d.row, d.id, d.DataType, d.Key)
 	if err != nil {
 		log.Println(err)
 	}
