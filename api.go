@@ -49,18 +49,13 @@ func Save(w http.ResponseWriter, r *http.Request) {
 			}
 			// updating data in accordance with the information received by the key
 			switch dt {
-			case "input-text", "content-html", "textarea":
+			case "input-text", "content-html", "textarea", "select":
 				_, err := db.Exec(fmt.Sprintf("update `%s` set `%s` = ? where `id` = ?", table, row), data.Value.(string), idl)
 				if err != nil {
 					log.Println(err)
 				}
 			case "checkbox":
 				_, err = db.Exec(fmt.Sprintf("update `%s` set `%s` = ? where `id` = ?", table, row), data.Value.(bool), idl)
-				if err != nil {
-					log.Println(err)
-				}
-			case "select":
-				_, err := db.Exec(fmt.Sprintf("update `%s` set `%s` = ? where `id` = ?", table, row), data.Value.(float64), idl)
 				if err != nil {
 					log.Println(err)
 				}

@@ -163,7 +163,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const request = JSON.stringify({
             "conn-id": parseInt(editors5[i].getAttribute("data-conn-id")),
             "key": editors5[i].getAttribute("data-key"),
-            "value": parseInt(editors5[i].value),
+            "value": editors5[i].value,
         })
         // send data
         saveData("select", request, i)
