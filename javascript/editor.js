@@ -89,6 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const request = JSON.stringify({
             "conn-id": parseInt(editors2[i].getAttribute("data-conn-id")),
             "key": editors2[i].getAttribute("data-key"),
+            "value": editors2[i].getAttribute("data-value") !== "true",
         })
         // send data
         saveData("checkbox", request, i)
@@ -162,7 +163,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const request = JSON.stringify({
             "conn-id": parseInt(editors5[i].getAttribute("data-conn-id")),
             "key": editors5[i].getAttribute("data-key"),
-            "value": editors5[i].value,
+            "value": parseInt(editors5[i].value),
         })
         // send data
         saveData("select", request, i)

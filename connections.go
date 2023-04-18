@@ -2,7 +2,6 @@ package editor
 
 import (
 	"database/sql"
-	"fmt"
 	"log"
 )
 
@@ -16,7 +15,6 @@ func (c *Connections) Add(id int, source string) {
 
 func (c *Connections) Open(id int) *sql.DB {
 	db, err := sql.Open("mysql", (*c)[id])
-	fmt.Println("Open")
 	if err != nil {
 		log.Println(err)
 	}
@@ -25,7 +23,6 @@ func (c *Connections) Open(id int) *sql.DB {
 
 func (c *Connections) Close(db *sql.DB) {
 	err := db.Close()
-	fmt.Println("Close")
 	if err != nil {
 		log.Println(err)
 	}

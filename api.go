@@ -17,9 +17,9 @@ type SaveResponse struct {
 func Save(w http.ResponseWriter, r *http.Request) {
 	// read incoming data
 	var data struct {
-		ConnId int    `json:"conn-id"`
-		Key    string `json:"key"`
-		Value  string `json:"value"`
+		ConnId int         `json:"conn-id"`
+		Key    string      `json:"key"`
+		Value  interface{} `json:"value"`
 	}
 	decoder := json.NewDecoder(r.Body)
 	err := decoder.Decode(&data)
@@ -49,13 +49,18 @@ func Save(w http.ResponseWriter, r *http.Request) {
 			}
 			// updating data in accordance with the information received by the key
 			switch dt {
-			case "input-text", "content-html", "textarea", "select":
-				_, err := db.Exec(fmt.Sprintf("update `%s` set `%s` = ? where `id` = ?", table, row), data.Value, idl)
+			case "input-text", "content-html", "textarea":
+				_, err := db.Exec(fmt.Sprintf("update `%s` set `%s` = ? where `id` = ?", table, row), data.Value.(string), idl)
 				if err != nil {
 					log.Println(err)
 				}
 			case "checkbox":
-				_, err := db.Exec(fmt.Sprintf("update `%s` set `%s` = !%s where `id` = ?", table, row, row), idl)
+				_, err = db.Exec(fmt.Sprintf("update `%s` set `%s` = ? where `id` = ?", table, row), data.Value.(bool), idl)
+				if err != nil {
+					log.Println(err)
+				}
+			case "select":
+				_, err := db.Exec(fmt.Sprintf("update `%s` set `%s` = ? where `id` = ?", table, row), data.Value.(float64), idl)
 				if err != nil {
 					log.Println(err)
 				}
