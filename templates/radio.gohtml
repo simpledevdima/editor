@@ -1,0 +1,3 @@
+{{range $v, $label := .Value.Options}}
+    <div><input class="editor radio" type="radio" name="{{.Value.Name}}" value="{{$v}}" data-conn-id="{{.ConnID}}" data-key="{{.Key}}"><label>label</label></div>
+{{end}}
