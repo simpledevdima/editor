@@ -4,7 +4,7 @@ package editor
 import (
 	"database/sql"
 	"fmt"
-	"github.com/skvdmt/f"
+	"github.com/simpledevdima/sf"
 	"log"
 	"net/http"
 	"os"
@@ -71,7 +71,7 @@ func makeSession(w http.ResponseWriter, db *sql.DB) string {
 	// creates a unique session ID
 	var sessionID string
 	for {
-		hash := f.GetHash()
+		hash := sf.GetHash()
 		var cnt int
 		err := db.QueryRow("select count(*) from `editor` where `session_id` = ?", hash).Scan(&cnt)
 		if err != nil {

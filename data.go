@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"database/sql"
 	"fmt"
-	"github.com/skvdmt/f"
+	"github.com/simpledevdima/sf"
 	"log"
 )
 
@@ -73,7 +73,7 @@ func (d *Data) getKey(db *sql.DB) {
 	case 0:
 		// make new unique key
 		for {
-			d.Key = f.GetHash()
+			d.Key = sf.GetHash()
 			var kc int
 			err = db.QueryRow("select count(*) from `editor` where `key` = ?", d.Key).Scan(&kc)
 			if err != nil {
